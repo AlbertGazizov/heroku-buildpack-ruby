@@ -632,7 +632,7 @@ ERROR
       log("create_database_yml") do
         return unless File.directory?("config")
         topic("Writing config/database.yml to read from DATABASE_URL")
-        File.open("config/database.yml", "w") do |file|
+        File.open("configs/lib/configs/database.yml", "w") do |file|
           file.puts <<-DATABASE_YML
 <%
 
@@ -662,7 +662,7 @@ def attribute(name, value, force_string = false)
 end
 
 adapter = uri.scheme
-adapter = "postgresql" if adapter == "postgres"
+adapter = "postgres"
 
 database = (uri.path || "").split("/")[1]
 
@@ -679,7 +679,7 @@ params = CGI.parse(uri.query || "")
 <%= ENV["RAILS_ENV"] || ENV["RACK_ENV"] %>:
   <%= attribute "adapter",  adapter %>
   <%= attribute "database", database %>
-  <%= attribute "username", username %>
+  <%= attribute "user", username %>
   <%= attribute "password", password, true %>
   <%= attribute "host",     host %>
   <%= attribute "port",     port %>
