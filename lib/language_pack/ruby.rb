@@ -632,7 +632,7 @@ ERROR
       log("create_database_yml") do
         return unless File.directory?("config")
         topic("Writing config/database.yml to read from DATABASE_URL")
-        File.open("configs/lib/configs/database.yml", "w") do |file|
+        File.open("infrastructure/configs/lib/configs/database.yml", "w") do |file|
           file.puts <<-DATABASE_YML
 <%
 
