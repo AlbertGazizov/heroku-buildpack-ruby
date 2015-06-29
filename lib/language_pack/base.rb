@@ -25,8 +25,10 @@ class LanguagePack::Base
   # @param [String] the path of the build dir
   # @param [String] the path of the cache dir this is nil during detect and release
   def initialize(build_path, cache_path=nil)
-     self.class.instrument "base.initialize" do
-      @build_path    = build_path
+    self.class.instrument "base.initialize" do
+      @app_subdir    = env('APP_SUBDIR') || ''
+      @base_path     = build_path
+      @build_path    = File.join(@base_path, @app_subdir)
       @stack         = ENV.fetch("STACK")
       @cache         = LanguagePack::Cache.new(cache_path) if cache_path
       @metadata      = LanguagePack::Metadata.new(@cache)
@@ -36,8 +38,14 @@ class LanguagePack::Base
       @deprecations  = []
       @fetchers      = {:buildpack => LanguagePack::Fetcher.new(VENDOR_URL) }
 
+      user_env_hash.delete('BUNDLE_GEMFILE')
+
       Dir.chdir build_path
     end
+  end
+
+  def app_subdir?
+    @app_subdir != ''
   end
 
   def instrument(*args, &block)
@@ -104,7 +112,7 @@ class LanguagePack::Base
       f.write(release.to_yaml)
     end
 
-    unless File.exist?("Procfile")
+    unless File.exist?(File.join @base_path, "Procfile")
       msg =  "No Procfile detected, using the default web server (webrick)\n"
       msg << "https://devcenter.heroku.com/articles/ruby-default-web-server"
       warn msg
