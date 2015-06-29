@@ -24,7 +24,7 @@ class LanguagePack::Ruby < LanguagePack::Base
   # @return [Boolean] true if it's a Ruby app
   def self.use?
     instrument "ruby.use" do
-      File.exist?("Gemfile")
+      File.exist?(File.join(build_patch, "Gemfile"))
     end
   end
 
