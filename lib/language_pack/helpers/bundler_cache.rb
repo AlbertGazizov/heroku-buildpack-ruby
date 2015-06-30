@@ -12,7 +12,7 @@ class LanguagePack::BundlerCache
   def initialize(cache, stack = nil)
     @cache       = cache
     @stack       = stack
-    @bundler_dir = Pathname.new("rails_app/vendor/bundle")
+    @bundler_dir = Pathname.new("vendor/bundle")
     @stack_dir   = @stack ? Pathname.new(@stack) + @bundler_dir : @bundler_dir
   end
 
