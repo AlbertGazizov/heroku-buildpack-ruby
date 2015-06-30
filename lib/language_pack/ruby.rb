@@ -872,7 +872,7 @@ params = CGI.parse(uri.query || "")
       create_base_symlink('bin')
       create_base_symlink('tmp')
       create_base_symlink('vendor/bundle')
-      create_base_symlink('Procfile')
+      #create_base_symlink('Procfile')
       create_base_symlink(slug_vendor_ruby)
     end
   end
